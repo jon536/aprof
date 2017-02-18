@@ -1,0 +1,118 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+
+    <parent>
+        <groupId>com.devexperts.aprof</groupId>
+        <artifactId>aprof</artifactId>
+        <version>31-SNAPSHOT</version>
+    </parent>
+
+    <properties>
+        <!-- The maven-assembly-plugin will fail to find all dependencies unless these are set to proper values.
+     If you need to build this project on your own computer, please override these values on the
+     command line with -Didea.home=... -->
+        <idea.version>2016.1</idea.version>
+        <idea.home>/home/eugene/java/idea</idea.home>
+    </properties>
+
+
+    <packaging>jar</packaging>
+
+    <artifactId>plugin</artifactId>
+    <name>Aprof Plugin</name>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <inherited>false</inherited>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>${project.basedir}/assembly.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.devexperts.aprof</groupId>
+            <artifactId>core</artifactId>
+            <version>31-SNAPSHOT</version>
+        </dependency>
+
+        <!-- IntelliJ IDEA -->
+
+        <dependency>
+            <groupId>com.intellij</groupId>
+            <artifactId>openapi</artifactId>
+            <version>${idea.version}</version>
+            <scope>system</scope>
+            <systemPath>${idea.home}/lib/openapi.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.intellij</groupId>
+            <artifactId>extensions</artifactId>
+            <version>${idea.version}</version>
+            <scope>system</scope>
+            <systemPath>${idea.home}/lib/extensions.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.intellij</groupId>
+            <artifactId>idea</artifactId>
+            <version>${idea.version}</version>
+            <scope>system</scope>
+            <systemPath>${idea.home}/lib/idea.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.intellij</groupId>
+            <artifactId>jdom</artifactId>
+            <version>${idea.version}</version>
+            <scope>system</scope>
+            <systemPath>${idea.home}/lib/jdom.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.intellij</groupId>
+            <artifactId>util</artifactId>
+            <version>${idea.version}</version>
+            <scope>system</scope>
+            <systemPath>${idea.home}/lib/util.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.intellij</groupId>
+            <artifactId>annotations</artifactId>
+            <version>${idea.version}</version>
+            <scope>system</scope>
+            <systemPath>${idea.home}/lib/annotations.jar</systemPath>
+        </dependency>
+    </dependencies>
+</project>

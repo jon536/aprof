@@ -1,3 +1,6 @@
+classes
+**/out
+**/*.jar
 **/target
 **/*.iml
 .idea

@@ -85,14 +85,23 @@ public class SnapshotShallow implements Serializable {
 		return name;
 	}
 
+	/**
+	 * @return count of allocated objects
+	 */
 	public long getCount() {
 		return count;
 	}
 
+	/**
+	 * @return count of allocated objects
+   */
 	public long getTotalCount() {
 		return count + histoCountsSum;
 	}
 
+	/**
+	 * @return size of allocated bytes
+   */
 	public long getSize() {
 		return size;
 	}

@@ -26,81 +26,82 @@ import java.util.*;
  * It is not modified during run-time. Class hierarchy is analyzed and cached by transformer.
  */
 class DetailsConfiguration {
-	public static String RESOURCE = "details.config";
+  public static String RESOURCE = "details.config";
 
-	private static final String ANY_METHOD = "*";
+  private static final String ANY_METHOD = "*";
 
-	/**
-	 * Maps class name to a set of tracked method names.
-	 */
-	private final Map<String, Set<String>> trackedLocations = new LinkedHashMap<String, Set<String>>();
+  /**
+   * Maps class name to a set of tracked method names.
+   */
+  private final Map<String, Set<String>> trackedLocations = new LinkedHashMap<String, Set<String>>();
 
-	public DetailsConfiguration() {}
+  public DetailsConfiguration() {}
 
-	public void loadFromResource() throws IOException {
-		loadFromStream(ClassLoader.getSystemResourceAsStream(RESOURCE));
-	}
+  public void loadFromResource() throws IOException {
+    loadFromStream(DetailsConfiguration.class.getResourceAsStream("/" + RESOURCE));
+//    loadFromStream(ClassLoader.getSystemResourceAsStream(RESOURCE));
+  }
 
-	public void loadFromFile(String fileName) throws IOException {
-		if (fileName == null || fileName.trim().length() == 0)
-			return;
-		loadFromStream(new FileInputStream(fileName));
-	}
+  public void loadFromFile(String fileName) throws IOException {
+    if (fileName == null || fileName.trim().length() == 0)
+      return;
+    loadFromStream(new FileInputStream(fileName));
+  }
 
-	public void addClassMethods(String[] locations) throws IOException {
-		for (String location : locations) {
-			int pos = location.lastIndexOf('.');
-			if (pos < 0)
-				throw new IllegalArgumentException("Location is <class>.<method>");
-			String className = location.substring(0, pos);
-			String methodName = location.substring(pos + 1);
-			getOrCreateClassMethods(className).add(methodName);
-		}
-	}
+  public void addClassMethods(String[] locations) throws IOException {
+    for (String location : locations) {
+      int pos = location.lastIndexOf('.');
+      if (pos < 0)
+        throw new IllegalArgumentException("Location is <class>.<method>");
+      String className = location.substring(0, pos);
+      String methodName = location.substring(pos + 1);
+      getOrCreateClassMethods(className).add(methodName);
+    }
+  }
 
-	public Set<String> getTrackedClasses() {
-		return trackedLocations.keySet();
-	}
+  public Set<String> getTrackedClasses() {
+    return trackedLocations.keySet();
+  }
 
-	public boolean isMethodTracked(String className, String methodName) {
-		Set<String> trackedMethods = trackedLocations.get(className);
-		return trackedMethods != null &&
-			(trackedMethods.contains(ANY_METHOD) || trackedMethods.contains(methodName));
-	}
+  public boolean isMethodTracked(String className, String methodName) {
+    Set<String> trackedMethods = trackedLocations.get(className);
+    return trackedMethods != null &&
+      (trackedMethods.contains(ANY_METHOD) || trackedMethods.contains(methodName));
+  }
 
-	private void loadFromStream(InputStream stream) throws IOException {
-		BufferedReader in = new BufferedReader(new InputStreamReader(stream));
-		try {
-			Set<String> classMethods = null;
-			for (int lineNo = 1;; lineNo++) {
-				String line = in.readLine();
-				if (line == null)
-					break;
-				if (line.length() == 0)
-					continue;
-				boolean indentedLine = Character.isWhitespace(line.charAt(0));
-				line = line.trim();
-				if (line.length() == 0 || line.startsWith(Configuration.COMMENT))
-					continue;
-				if (indentedLine) {
-					if (classMethods == null)
-						throw new IOException(String.format(
-							"Line %d: Indented line with method name shall follow a line with class name", lineNo));
-					classMethods.add(line);
-				} else {
-					// non-indented line with a class-name
-					classMethods = getOrCreateClassMethods(line);
-				}
-			}
-		} finally {
-			in.close();
-		}
-	}
+  private void loadFromStream(InputStream stream) throws IOException {
+    BufferedReader in = new BufferedReader(new InputStreamReader(stream));
+    try {
+      Set<String> classMethods = null;
+      for (int lineNo = 1;; lineNo++) {
+        String line = in.readLine();
+        if (line == null)
+          break;
+        if (line.length() == 0)
+          continue;
+        boolean indentedLine = Character.isWhitespace(line.charAt(0));
+        line = line.trim();
+        if (line.length() == 0 || line.startsWith(Configuration.COMMENT))
+          continue;
+        if (indentedLine) {
+          if (classMethods == null)
+            throw new IOException(String.format(
+              "Line %d: Indented line with method name shall follow a line with class name", lineNo));
+          classMethods.add(line);
+        } else {
+          // non-indented line with a class-name
+          classMethods = getOrCreateClassMethods(line);
+        }
+      }
+    } finally {
+      in.close();
+    }
+  }
 
-	private Set<String> getOrCreateClassMethods(String className) {
-		Set<String> classMethods = trackedLocations.get(className);
-		if (classMethods == null)
-			trackedLocations.put(className, classMethods = new HashSet<String>());
-		return classMethods;
-	}
+  private Set<String> getOrCreateClassMethods(String className) {
+    Set<String> classMethods = trackedLocations.get(className);
+    if (classMethods == null)
+      trackedLocations.put(className, classMethods = new HashSet<>());
+    return classMethods;
+  }
 }

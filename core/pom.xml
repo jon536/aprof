@@ -16,46 +16,59 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses />.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>com.devexperts.aprof</groupId>
-		<artifactId>aprof</artifactId>
-		<version>31-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <groupId>com.devexperts.aprof</groupId>
+        <artifactId>aprof</artifactId>
+        <version>31-SNAPSHOT</version>
+    </parent>
 
-	<packaging>jar</packaging>
+    <packaging>jar</packaging>
 
-	<artifactId>core</artifactId>
-	<name>Aprof Core</name>
+    <artifactId>core</artifactId>
+    <name>Aprof Core</name>
 
-	<build>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-			</resource>
-			<resource>
-				<directory>${project.basedir}/..</directory>
-				<targetPath>${project.build.outputDirectory}/META-INF/</targetPath>
-				<includes>
-					<include>README*</include>
-					<include>LICENSE*</include>
-					<include>NOTICE*</include>
-				</includes>
-			</resource>
-		</resources>
-		<plugins>
-			<plugin>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<addMavenDescriptor>false</addMavenDescriptor>
-						<manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
-					</archive>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>${project.basedir}/..</directory>
+                <targetPath>${project.build.outputDirectory}/META-INF/</targetPath>
+                <includes>
+                    <include>README*</include>
+                    <include>LICENSE*</include>
+                    <include>NOTICE*</include>
+                </includes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                        <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
 </project>

@@ -54,6 +54,9 @@ public class SnapshotDeep extends SnapshotShallow {
 		return used > 0;
 	}
 
+	/**
+	 * @return the number of children it contains
+   */
 	public int getUsed() {
 		return used;
 	}

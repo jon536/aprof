@@ -1,0 +1,60 @@
+<idea-plugin version="2">
+    <id>com.devexperts.aprof</id>
+    <name>Aprof</name>
+    <version>1.1</version>
+    <vendor email="n.eugene536@gmail.com" url="">Eugene</vendor>
+
+    <description>
+        GUI for Aprof
+    </description>
+
+    <change-notes></change-notes>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+    <idea-version since-build="131.0"/>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <!-- uncomment to enable plugin in all products -->
+    <depends>com.intellij.modules.lang</depends>
+
+    <actions>
+        <action class="com.devexperts.aprof.ijplugin.calltree.action.ActivateAprofTree" id="AprofClientUI"
+                text="Aprof:Connect to host">
+            <add-to-group group-id="ToolsMenu" anchor="first"/>
+        </action>
+
+        <group id="TreeToolWindowGroup">
+            <action text="Run" icon="/actions/execute.png" id="runMonitorTree"
+                    class="com.devexperts.aprof.ijplugin.calltree.action.RunMonitorTreeButton"/>
+
+            <action text="Stop" icon="/actions/cancel.png" id="stopMonitorTree"
+                    class="com.devexperts.aprof.ijplugin.calltree.action.StopMonitorTreeButton"/>
+
+            <action text="Refresh" icon="/actions/refresh.png" id="refreshMonitorTree"
+                    class="com.devexperts.aprof.ijplugin.calltree.action.RefreshMonitorTreeButton"/>
+
+            <action text="Toggle" icon="/actions/checked.png" id="toggleOrder"
+                    class="com.devexperts.aprof.ijplugin.calltree.action.ToggleOrder"/>
+        </group>
+    </actions>
+
+
+    <extensions defaultExtensionNs="com.intellij">
+        <runConfigurationExtension
+                implementation="com.devexperts.aprof.ijplugin.executor.AprofRunConfigurationExtension"/>
+        <programRunner implementation="com.devexperts.aprof.ijplugin.executor.AprofProgramRunner"/>
+        <executor implementation="com.devexperts.aprof.ijplugin.executor.AprofExecutor"/>
+
+
+        <toolWindow id="Aprof"
+                    anchor="right"
+                    factoryClass="com.devexperts.aprof.ijplugin.calltree.AprofWindowFactory"
+                    conditionClass="com.devexperts.aprof.ijplugin.calltree.AprofWindowCondition"
+                    icon="/icons/aprof.png"/>
+
+        <projectService serviceInterface="com.devexperts.aprof.ijplugin.services.project.ConnectionState"
+                        serviceImplementation="com.devexperts.aprof.ijplugin.services.project.ConnectionState"/>
+    </extensions>
+
+</idea-plugin>
